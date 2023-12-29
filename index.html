@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=320, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=0;"/>
+  <meta name="viewport" content="width=device-width, target-densityDpi=medium-dpi"/>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@7.3.67/css/materialdesignicons.min.css"
+    />
+  </head>
+  <body>
+    <div class="top-bar">
+      <div class="info">
+        <span class="mdi mdi-bed"> Pokój 304</span>
+        <div id="temp">-</div>
+      </div>
+
+      <div class="clock">
+        <div id="time"></div>
+        <div id="date"></div>
+      </div>
+    </div>
+    <div class="center">
+      <span class="welcome-text">Witaj Sebastian</span>
+    </div>
+    <div class="navbar">
+      <img class="logo" src="https://www.hotelsopot.eu/img/logo2.png" alt="" />
+      <a
+      href="./tv.html"
+    >
+      <button id="tv-button"><span class="mdi mdi-television-classic"></span><span class="app-name">Telewizja</span></button>
+      </a>
+      <a
+      href="./information.html"
+    ><button><span class="mdi mdi-information-variant-box"></span><span class="app-name">Informacje</span></button></a>
+      <a
+      href="./roomservice.html"
+    ><button><span class="mdi mdi-room-service"></span><span class="app-name">Room Service</span></button></a>
+      <a
+        href="app://netflix"
+      >
+        <button><span class="mdi mdi-netflix"></span><span class="app-name">Netflix</span></button>
+      </a>
+      <a
+        href="app://youtube"
+      >
+        <button><span class="mdi mdi-youtube"></span><span class="app-name">YouTube</span></button>
+      </a>
+      <button><span class="mdi mdi-cast"></span></span><span class="app-name">ScreenCast</span></button>
+
+    </div>
+
+    <script>
+      function updateClock() {
+        var date = new Date();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var year = date.getFullYear();
+        var day = date.getDate();
+        var month = date.toLocaleString("pl", { month: "long" });
+        if (hours < 10) hours = "0" + hours;
+        if (minutes < 10) minutes = "0" + minutes;
+        var time = hours + ":" + minutes;
+        var date = day + " " + month + " " + year;
+        document.getElementById("time").innerHTML = time;
+        document.getElementById("date").innerHTML = date;
+
+      }
+      setInterval(updateClock, 30000);
+
+      //if user enabled location tracking. see navigator docs.
+      function getWeather() {
+        // Zdefiniuj URL do API pogodowego (tu używam OpenWeatherMap jako przykład)
+        const apiUrl =
+          "https://api.openweathermap.org/data/2.5/weather?q=Zaborze&appid=eb7cf282541ad0aeab5e0e609161a441&units=metric";
+
+        // Wywołaj API za pomocą fetch
+        fetch(apiUrl)
+          .then((response) => response.json())
+          .then((data) => {
+            // Pobierz temperaturę z danych JSON
+            const temperature = data.main.temp;
+
+            // Wyświetl temperaturę w elemencie o id "temperature"
+            document.getElementById(
+              "temp"
+            ).innerText = `${temperature}°C`
+          })
+          .catch((error) => {
+            console.error(
+              "Wystąpił błąd podczas pobierania danych pogodowych",
+              error
+            );
+          });
+      }
+
+      //Przy otwarciu focus na tv button
+      function focusButton() { 
+            document.getElementById("tv-button").focus(); 
+        } 
+        
+      // Wywołaj funkcję getWeather() po załadowaniu strony
+      window.onload = () => {getWeather(); updateClock(); focusButton();};
+
+    </script>
+
+<script>
+  function changeBackground() {
+    const images = [
+      'https://picsum.photos/1920/1080.jpg',
+      'https://picsum.photos/1920/1081.jpg'
+    ];
+    const randomIndex = Math.floor(Math.random() * images.length);
+    document.body.style.backgroundImage = `url('${images[randomIndex]}')`;
+  }
+  setInterval(changeBackground, 500000);
+
+</script>
+  </body>
+</html>
